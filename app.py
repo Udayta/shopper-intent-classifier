@@ -299,10 +299,29 @@ with tab_rows:
     rows.insert(0, "Actual", y_true.map({True: "Purchase", False: "No purchase"}))
     rows.insert(1, "Predicted", pd.Series(result["y_pred"], index=frame.index).map({True: "Purchase", False: "No purchase"}))
     rows.insert(2, "Correct", rows["Actual"] == rows["Predicted"])
+    # SVC was trained without probability calibration, so it only offers its margin.
+    has_proba = hasattr(load_models()[selected], "predict_proba")
+    score_column = "Purchase probability" if has_proba else "Decision score"
+    rows.insert(3, score_column, result["y_score"])
     only_errors = st.toggle("Show only the sessions it got wrong")
     shown = rows[~rows["Correct"]] if only_errors else rows
     st.caption(f"Showing {len(shown):,} of {len(rows):,} sessions")
-    st.dataframe(shown, width="stretch", height=420, hide_index=True)
+    if has_proba:
+        st.caption("Purchase probability: the model's estimated chance that the session ends in a purchase (0 to 1).")
+    else:
+        st.caption(
+            "Decision score: this SVM gives no probabilities, only a distance from its decision boundary. "
+            "Above 0 means it predicts a purchase; the further from 0, the more confident it is."
+        )
+    st.dataframe(
+        shown,
+        width="stretch",
+        height=420,
+        hide_index=True,
+        column_config={
+            score_column: st.column_config.NumberColumn(format="%.3f" if has_proba else "%+.3f"),
+        },
+    )
     st.download_button(
         "Download these predictions as CSV",
         data=shown.to_csv(index=False).encode("utf-8"),
