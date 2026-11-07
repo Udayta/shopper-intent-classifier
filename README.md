@@ -39,7 +39,7 @@ Five classifiers are trained on the same data and compared on six evaluation met
 
 ## c. GitHub repository link
 
-REPLACE_WITH_GITHUB_URL
+GitHub URL - https://github.com/Udayta/shopper-intent-classifier
 
 ```
 shopper-intent-classifier/
