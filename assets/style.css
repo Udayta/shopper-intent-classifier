@@ -1,0 +1,116 @@
+/* Visual layer for app.py. Streamlit handles layout; this file only adds colour. */
+
+[data-testid="stSidebar"] {
+  background: linear-gradient(180deg, #ede9fe 0%, #fce7f3 60%, #fef3c7 100%);
+}
+[data-testid="stSidebar"] h2 {
+  color: #5b21b6;
+}
+
+/* Hero banner */
+.hero {
+  background: linear-gradient(120deg, #4f46e5 0%, #9333ea 50%, #db2777 100%);
+  border-radius: 20px;
+  padding: 26px 30px 22px;
+  color: #ffffff;
+  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.25);
+  margin-bottom: 14px;
+}
+.hero .kicker {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.hero h1 {
+  color: #ffffff;
+  font-size: 2.3rem;
+  margin: 4px 0 6px;
+  padding: 0;
+}
+.hero p {
+  color: #f5f3ff;
+  font-size: 1.02rem;
+  max-width: 820px;
+  margin: 0 0 14px;
+}
+.hero .chips span {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  padding: 3px 12px;
+  margin: 0 6px 6px 0;
+  font-size: 0.85rem;
+}
+
+/* Stat cards (HTML, used for file summaries) */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 6px 0 16px;
+}
+.stat {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 12px 16px;
+  border-left: 6px solid var(--c);
+  box-shadow: 0 2px 10px rgba(30, 27, 58, 0.07);
+}
+.stat .label {
+  font-size: 0.8rem;
+  color: #5b5875;
+}
+.stat .value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e1b3a;
+  overflow-wrap: anywhere;
+}
+.stat .note {
+  font-size: 0.75rem;
+  color: #7a7794;
+}
+
+/* Insight list */
+.insight {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  border: 1px solid #ece8ff;
+  color: #1e1b3a;
+}
+
+/* Metric tiles: each metric keeps one colour */
+[class*="st-key-tile-"] {
+  border-radius: 16px;
+  padding: 12px 14px 8px;
+  border-top: 5px solid var(--tile);
+  background: color-mix(in srgb, var(--tile) 10%, #ffffff);
+  box-shadow: 0 3px 12px rgba(30, 27, 58, 0.07);
+}
+[class*="st-key-tile-"] [data-testid="stMetricValue"] {
+  color: #1e1b3a;
+}
+.st-key-tile-Accuracy  { --tile: #2563eb; }
+.st-key-tile-AUC       { --tile: #7c3aed; }
+.st-key-tile-Precision { --tile: #0d9488; }
+.st-key-tile-Recall    { --tile: #ea580c; }
+.st-key-tile-F1        { --tile: #db2777; }
+.st-key-tile-MCC       { --tile: #ca8a04; }
+
+/* Tabs */
+button[data-baseweb="tab"] p {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Section titles */
+.section-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #4c1d95;
+  margin: 18px 0 6px;
+}
