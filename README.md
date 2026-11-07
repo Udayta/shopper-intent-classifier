@@ -1,6 +1,6 @@
 # Shopper Intent Lab: Predicting Online Purchases
 
-**Live app:** REPLACE_WITH_STREAMLIT_URL
+**Live app:** https://shopper-intent-lab.streamlit.app/
 
 ## a. Problem statement
 
