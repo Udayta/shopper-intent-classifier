@@ -113,4 +113,4 @@ streamlit run app.py
 3. Read the six metrics, the confusion matrix and the classification report under **Selected model**.
 4. Compare every model on the same file, including ROC curves, under **All five compared**.
 5. Under **Data explorer**, see a description of the uploaded CSV: a column dictionary, class balance, feature distributions, correlations and a raw-data preview.
-6. Inspect or download individual predictions under **Row-level predictions**.
+6. Inspect or download individual predictions under **Row-level predictions**, including each session's predicted purchase probability (or the decision score for the SVM).
