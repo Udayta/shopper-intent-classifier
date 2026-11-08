@@ -217,6 +217,12 @@ def correlation_heatmap(frame: pd.DataFrame) -> alt.LayerChart:
     return (cells + text).properties(height=460)
 
 
+def three_decimals(table) -> dict:
+    """Show every column to 3 decimals. Uses column_config rather than pandas' Styler,
+    which needs a recent jinja2 that some environments (e.g. BITS Virtual Lab) lack."""
+    return {str(col): st.column_config.NumberColumn(format="%.3f") for col in table.columns}
+
+
 def render_data_explorer(frame: pd.DataFrame, info: dict) -> None:
     outcome = frame[TARGET].map({True: "Purchase", False: "No purchase"})
     data = frame.assign(Outcome=outcome)
@@ -273,7 +279,7 @@ def render_data_explorer(frame: pd.DataFrame, info: dict) -> None:
             st.altair_chart(numeric_distribution(data, feature, trim, hide_zeros), width="stretch")
         summary = data.groupby("Outcome")[feature].agg(["mean", "median", "max"]).reindex(list(CLASS_COLORS))
         summary.columns = ["Mean", "Median", "Max"]
-        st.dataframe(summary.style.format("{:,.3f}"), width="stretch")
+        st.dataframe(summary, width="stretch", column_config=three_decimals(summary))
     else:
         sessions, rates = category_charts(data, feature)
         a, b = st.columns(2)
@@ -289,7 +295,8 @@ def render_data_explorer(frame: pd.DataFrame, info: dict) -> None:
         st.info("The correlation chart needs both classes in the file.")
 
     section("Numeric summary")
-    st.dataframe(frame[NUMERIC_FEATURES].describe().T.style.format("{:,.3f}"), width="stretch")
+    numeric_summary = frame[NUMERIC_FEATURES].describe().T
+    st.dataframe(numeric_summary, width="stretch", column_config=three_decimals(numeric_summary))
 
     section("Raw data preview")
     st.dataframe(frame.head(100), width="stretch", height=320)

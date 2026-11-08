@@ -270,11 +270,19 @@ with tab_model:
 
 with tab_compare:
     st.subheader("How the five models score on this file")
-    st.dataframe(
-        comparison.style.format("{:.4f}", na_rep="n/a").highlight_max(axis=0, props="font-weight: bold"),
-        width="stretch",
-    )
-    st.caption(f"Bold marks the best model for each metric. In the charts below, the coloured bar is {selected}.")
+    try:
+        # pandas' Styler needs jinja2; some environments (e.g. a shared lab Python) lack it.
+        comparison_view = comparison.style.format("{:.4f}", na_rep="n/a").highlight_max(
+            axis=0, props="font-weight: bold"
+        )
+        best_note = "Bold marks the best model for each metric."
+    except (AttributeError, ImportError):
+        comparison_view = comparison.map(lambda v: "n/a" if pd.isna(v) else f"{v:.4f}")
+        best_note = "Best per metric: " + ", ".join(
+            f"{metric} → {comparison[metric].idxmax()}" for metric in METRIC_NAMES if comparison[metric].notna().any()
+        ) + "."
+    st.dataframe(comparison_view, width="stretch")
+    st.caption(f"{best_note} In the charts below, the coloured bar is {selected}.")
 
     for start in (0, 3):
         for column, metric in zip(st.columns(3), METRIC_NAMES[start : start + 3]):
